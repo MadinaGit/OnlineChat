@@ -6,18 +6,25 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class User {
-    public static void main(String[] args) {
-        ServerPort serverPort = new ServerPortImp();
+
+    private final int port;
+
+    public User(int port) {
+        this.port = port;
+    }
+
+
+    public void start() {
 
         FileLogger fileLogger = new FileLogger("file.log");
-        try (Socket clientSocket = new Socket("localhost", serverPort.getPort());
+
+        try (Socket clientSocket = new Socket("localhost", port);
              PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true);
              BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
 
             Scanner scanner = new Scanner(System.in);
             System.out.print("Пожалуйста, представьтесь: ");
             String userName = scanner.nextLine();
-            fileLogger.logMessage(userName + " подключился к чату");
             System.out.println("Добро пожаловать в чат, " + userName + ", можете начинать общение, для выхода из чата напишите /exit");
             writer.println(userName);
 
@@ -39,7 +46,6 @@ public class User {
                 userMessage = scanner.nextLine();
                 if (userMessage.equals("/exit")) {
                     writer.println("/exit");
-                    fileLogger.logMessage(userName + " вышел из чата");
                     break;
                 }
                 writer.println(userMessage);
