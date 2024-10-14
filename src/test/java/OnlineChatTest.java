@@ -8,13 +8,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class OnlineChatTest {
     private static Client client;
+static ServerPort serverPort = new ServerPortImp();
 
     @BeforeAll
     public static void configuration() {
 
         Thread server = new Thread(() -> {
             try {
-                Server.main(new String[0]);
+               Server server1 = new Server(serverPort.getPort());
+               server1.start();
             } catch (Exception e) {
                 e.printStackTrace();
             }

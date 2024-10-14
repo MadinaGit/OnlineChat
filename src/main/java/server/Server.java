@@ -1,3 +1,6 @@
+package server;
+
+import addition.FileLogger;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
